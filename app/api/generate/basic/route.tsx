@@ -1,15 +1,14 @@
-import { NextResponse } from "next/server";
-import { BasicResume } from "@/utils/templates/generateBasic";
-import { renderToStream } from '@react-pdf/renderer';
+import { generateBasicResumeStream } from "@/utils/templates/generateBasic";
+import { Resume } from "@/types/Resume";
 
-export async function POST(request: Request) { // Convert to post request
+export async function POST(request: Request) {
 
-    const resumeJSON = await request.json();
+    const reqResume: Resume = await request.json();
     
-    const pdf = await renderToStream(<BasicResume resume={ resumeJSON } />); // Get from POST payload
-
+    const pdfStream = await generateBasicResumeStream({resume: reqResume});
+    
     const headers = new Headers();
     headers.set("Content-Type", "application/pdf")
 
-    return new NextResponse(pdf, {status: 200, statusText: "OK", headers});
+    return new Response(pdfStream, {status: 200, statusText: "OK", headers});
 }

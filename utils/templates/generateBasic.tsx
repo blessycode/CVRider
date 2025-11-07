@@ -1,5 +1,5 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, renderToStream } from '@react-pdf/renderer';
 import type { Resume } from '@/types/Resume';
 
 // Create styles
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-export const BasicResume: React.FC<{ resume: Resume}> = ( { resume } : { resume : Resume} ) => {
+const BasicResume: React.FC<{ resume: Resume}> = ( { resume } : { resume : Resume} ) => {
   return (
     <Document>
         <Page size="LETTER" style={styles.page}>
@@ -30,3 +30,7 @@ export const BasicResume: React.FC<{ resume: Resume}> = ( { resume } : { resume 
     </Document>
   );
 }
+
+export const generateBasicResumeStream = async ({ resume } : { resume : Resume}) => {
+    return await renderToStream(<BasicResume resume={ resume } />)
+};
