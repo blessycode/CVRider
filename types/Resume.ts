@@ -1,37 +1,35 @@
-type DateRange = {
+export type DateRange = {
     start: string,
     end?: string,
 } // Refactor to use template literal YYYY-DD-MM
 
-type Highlight = string[];
-
-type Education = {
+export type Education = {
     credential: string,
     institution: string,
-    location?: string,
     dateRange?: DateRange,
-    highlights?: Highlight[],
+    location?: string,
+    highlights?: [string, ...string[]],
 }
 
-type Experience = {
+export type Experience = {
     credential: string,
     company: string,
     location?: string,
     dateRange?: DateRange,
-    highlights?: Highlight[],
+    highlights?: [string, ...string[]],
 }
 
-type Project = {
+export type Project = {
     name: string,
     url?: string
     stack?: string[],
     dateRange?: DateRange,
-    highlights?: Highlight,
+    highlights?: [string, ...string[]],
 }
 
-type Skill = {
+export type Skill = {
     category: string,
-    stack: string[],
+    stack: [string, ...string[]],
 }
 
 export type Resume = {
@@ -40,8 +38,8 @@ export type Resume = {
         middle?: string
         last?: string,
     },
-    education: Education[],
-    experience?: Experience[],
-    projects?: Project[],
-    skills?: Skill[],
+    education: [Education, ...Education[]],
+    experience?: [Experience, ...Experience[]],
+    projects?: [Project, ...Project[]],
+    skills?: [Skill, ...Skill[]],
 }
