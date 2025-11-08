@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   },
   bullet: {
     flexDirection: 'row',
+    marginRight: 20
   }
 });
 
