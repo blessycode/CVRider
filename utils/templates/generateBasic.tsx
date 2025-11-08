@@ -49,15 +49,15 @@ const BasicEducation: React.FC<{education : Education}> = ({ education } : { edu
 
 // Create Document Component
 const BasicResume: React.FC<{ resume: Resume}> = ( { resume } : { resume : Resume} ) => {
-    const hasEducation = resume.education && resume.education.length > 0;
-  
     return (
     <Document>
         <Page size="LETTER" style={styles.page}>
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>{resume.name.first} {resume.name.last}</Text>
             </View>
-                {hasEducation && resume.education.map(education => <BasicEducation education={education}/>)}
+                {resume.education 
+                && resume.education.length > 0 // Might not need this check if map over zero cardinality doesn't render... check later
+                && resume.education.map(education => <BasicEducation education={education}/>)}
             <View >
                 <Text>Experience</Text>
             </View>
