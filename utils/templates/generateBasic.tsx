@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
   page: {
     backgroundColor: '#E4E4E4',
     fontFamily: "Times-Roman",
+    padding: 20
   },
   header: {
     margin: 4,
@@ -17,9 +18,30 @@ const styles = StyleSheet.create({
     fontFamily: "Times-Bold",
     fontSize: 32
   },
+  heading: {
+    width: "100%",
+    fontSize: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: "black"
+  },
   bullet: {
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
+    marginLeft: 20,
     marginRight: 20
+  },
+  sectionInformation: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  subHeader: {
+    fontFamily: "Times-Bold"
+  },
+  leftBlock: {
+    flexDirection: "row",
+    flexGrow:1,
+    justifyContent: "flex-end"
   }
 });
 
@@ -35,11 +57,17 @@ const BasicBullet: React.FC<{text : string}> = ({ text } : { text : string}) => 
 const BasicEducation: React.FC<{education : Education}> = ({ education } : { education : Education}) => {    
     return (
         <View>
-            <Text>Education</Text>
-            <Text>{education.credential}</Text>
-            <Text>{education.institution}</Text>
-            {education.dateRange && <Text>TBD...</Text>}
-            {education.location && <Text>{education.location}</Text>}
+            <Text style={styles.heading}>Education</Text>
+            <View style={styles.sectionInformation}>
+                <View>
+                    <Text style={styles.subHeader}>{education.institution}</Text>
+                    <Text>{education.credential}</Text>
+                </View>
+                <View style={styles.leftBlock}>
+                    {education.dateRange && <Text>{education.dateRange.end ? `${education.dateRange.start} - ${education.dateRange.end}` : `${education.dateRange.start}`}</Text>}
+                    {education.location && <Text>{education.location}</Text>}
+                </View>
+            </View>
             {education.highlights && <View>
                 {education.highlights.map(highlight => <BasicBullet text={highlight} />)}
             </View>}
