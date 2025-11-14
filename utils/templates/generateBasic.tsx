@@ -1,6 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, renderToStream } from '@react-pdf/renderer';
-import { type Resume, type Education, type Experience, type Project, type Skill, educationSchema } from '@/types/Resume';
+import { type Resume, type Education, type Experience, type Project, type Skill } from '@/types/Resume';
 
 // Create styles
 const styles = StyleSheet.create({
