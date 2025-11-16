@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E4E4E4',
     fontFamily: "Times-Roman",
     padding: 20,
-    fontSize: 16
+    fontSize: 12
   },
   header: {
     margin: 4,
@@ -17,18 +17,19 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontFamily: "Times-Bold",
-    fontSize: 32
+    fontSize: 24
   },
   heading: {
     width: "100%",
-    fontSize: 24,
+    fontSize: 18,
     borderBottomWidth: 1,
-    borderBottomColor: "black"
+    borderBottomColor: "black",
+    marginVertical: 6
   },
   bullet: {
     display: "flex",
     flexDirection: "row",
-    marginLeft: 20,
+    marginLeft: 10,
     marginRight: 20
   },
   sectionInformation: {
@@ -41,6 +42,24 @@ const styles = StyleSheet.create({
   },
   italicized: {
     fontFamily: "Times-Italic"
+  },
+  projectLeft: {
+    display: "flex",
+    flexDirection: "row"
+  },
+  projectStack: {
+    marginLeft: 2,
+    fontFamily: "Times-Italic"
+  },
+  skillRow: {
+    display: "flex",
+    flexDirection: "row"
+  },
+  skillCategory: {
+    fontFamily: "Times-Bold"
+  },
+  skillStack: {
+    marginLeft: 2
   }
 });
 
@@ -96,15 +115,29 @@ const BasicExperience: React.FC<{ experience: Experience }> = ({ experience } : 
 const BasicProject: React.FC<{ project : Project }> = ({ project } : { project : Project }) => {
     return (
         <View>
-            {/* ... */}
+            <View style={styles.sectionInformation}>
+                <View style={styles.projectLeft}>
+                    <Text style={styles.subHeader}>{project.name}</Text>
+                    {project.stack
+                    && project.stack.length > 0
+                    && <Text style={styles.projectStack}>{project.stack.join(", ")}</Text>}
+                </View>
+                <View>
+                    {project.dateRange && <Text>{project.dateRange.end ? `${project.dateRange.start} - ${project.dateRange.end}` : `${project.dateRange.start} - Present`}</Text>}
+                </View>
+            </View>
+            {project.highlights && <View>
+                {project.highlights.map(highlight => <BasicBullet text={highlight} />)}
+            </View>}
         </View>
     );
 }
 
 const BasicSkill: React.FC<{ skill : Skill }> = ({ skill } : { skill : Skill }) => {
     return (
-        <View>
-            {/* ... */}
+        <View style={styles.skillRow}>
+            <Text style={styles.skillCategory}>{skill.category}:</Text>
+            <Text style={styles.skillStack}>{skill.stack.join(", ")}</Text>
         </View>
     );
 }
@@ -132,10 +165,20 @@ const BasicResume: React.FC<{ resume: Resume }> = ( { resume } : { resume : Resu
                 </View>}
             </View>
             <View >
-                <Text>Projects</Text>
+                {resume.projects
+                && resume.projects.length > 0
+                && <View>
+                    <Text style={styles.heading}>Projects</Text>
+                    {resume.projects.map(project => <BasicProject project={project}/>)}
+                </View>}
             </View>
             <View >
-                <Text>Skills</Text>
+                {resume.skills
+                && resume.skills.length > 0
+                && <View>
+                    <Text style={styles.heading}>Skills</Text>
+                    {resume.skills.map(skill => <BasicSkill skill={skill} />)}
+                </View>}
             </View>
         </Page>
     </Document>

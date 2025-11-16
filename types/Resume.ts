@@ -47,6 +47,8 @@ export type Resume = {
     skills?: [Skill, ...Skill[]],
 }
 
+// TODO: Wrap name in Contact type that has enumerable hyperlinks, phone, address, etc...
+
 // -- Zod Schema definitions
 export const dateRangeSchema = z.object({
     start: z.string(),
