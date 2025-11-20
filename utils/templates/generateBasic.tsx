@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 20
   },
-  sectionInformation: {
+  sectionInfoLine: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between"
@@ -75,13 +75,19 @@ const BasicBullet: React.FC<{ text : string }> = ({ text } : { text : string }) 
 const BasicEducation: React.FC<{ education : Education }> = ({ education } : { education : Education}) => {    
     return (
         <View>
-            <View style={styles.sectionInformation}>
+            <View style={styles.sectionInfoLine}>
                 <View>
                     <Text style={styles.subHeader}>{education.institution}</Text>
-                    <Text style={styles.italicized}>{education.credential}</Text>
                 </View>
                 <View>
                     {education.dateRange && <Text>{education.dateRange.end ? `${education.dateRange.start} - ${education.dateRange.end}` : `${education.dateRange.start} - Present`}</Text>}
+                </View>
+            </View>
+            <View style={styles.sectionInfoLine}>
+                <View>
+                    <Text style={styles.italicized}>{education.credential}</Text>
+                </View>
+                <View>
                     {education.location && <Text style={styles.italicized}>{education.location}</Text>}
                 </View>
             </View>
@@ -95,13 +101,19 @@ const BasicEducation: React.FC<{ education : Education }> = ({ education } : { e
 const BasicExperience: React.FC<{ experience: Experience }> = ({ experience } : { experience : Experience }) => {
     return (
         <View>
-            <View style={styles.sectionInformation}>
+            <View style={styles.sectionInfoLine}>
                 <View>
                     <Text style={styles.subHeader}>{experience.credential}</Text>
-                    <Text style={styles.italicized}>{experience.company}</Text>
                 </View>
                 <View>
                     {experience.dateRange && <Text>{experience.dateRange.end ? `${experience.dateRange.start} - ${experience.dateRange.end}` : `${experience.dateRange.start} - Present`}</Text>}
+                </View>
+            </View>
+            <View style={styles.sectionInfoLine}>
+                <View>
+                    <Text style={styles.italicized}>{experience.company}</Text>
+                </View>
+                <View>
                     {experience.location && <Text style={styles.italicized}>{experience.location}</Text>}
                 </View>
             </View>
@@ -115,7 +127,7 @@ const BasicExperience: React.FC<{ experience: Experience }> = ({ experience } : 
 const BasicProject: React.FC<{ project : Project }> = ({ project } : { project : Project }) => {
     return (
         <View>
-            <View style={styles.sectionInformation}>
+            <View style={styles.sectionInfoLine}>
                 <View style={styles.projectLeft}>
                     <Text style={styles.subHeader}>{project.name}</Text>
                     {project.stack
