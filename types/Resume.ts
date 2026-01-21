@@ -4,7 +4,12 @@ import z from "zod";
 export type DateRange = {
     start: string,
     end?: string,
-} // Refactor to use template literal mm-dd-yyyy
+}
+
+export type Contact = {
+    text: string,
+    url?: string,
+}
 
 export type Education = {
     credential: string,
@@ -41,19 +46,23 @@ export type Resume = {
         middle?: string
         last?: string,
     },
+    contacts?: [Contact, ...Contact[]],
     education?: [Education, ...Education[]],
     experience?: [Experience, ...Experience[]],
     projects?: [Project, ...Project[]],
     skills?: [Skill, ...Skill[]],
 }
 
-// TODO: Wrap name in Contact type that has enumerable hyperlinks, phone, address, etc...
-
 // -- Zod Schema definitions
 export const dateRangeSchema = z.object({
     start: z.string(),
-    end: z.string(),
+    end: z.string().optional(),
 }); // Refactor to enforce mm-dd-yyyy
+
+export const contactSchema = z.object({
+    text: z.string(),
+    url: z.string().optional(),
+});
 
 export const educationSchema = z.object({
     credential: z.string(),
@@ -90,6 +99,7 @@ export const resumeSchema = z.object({
         middle: z.string().optional(),
         last: z.string().optional(),
     }),
+    contacts: z.array(contactSchema).min(1).optional(),
     education: z.array(educationSchema).min(1).optional(),
     experience: z.array(experienceSchema).min(1).optional(),
     projects: z.array(projectSchema).min(1).optional(),
