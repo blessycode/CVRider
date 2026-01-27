@@ -9,6 +9,7 @@ export type DateRange = {
 export type Contact = {
     text: string,
     url?: string,
+    type?: "email" | "phone" | "linkedin" | "github" | "website" | "location" | "other",
 }
 
 export type Education = {
@@ -16,7 +17,7 @@ export type Education = {
     institution: string,
     dateRange?: DateRange,
     location?: string,
-    highlights?: [string, ...string[]],
+    highlights?: string[],
 }
 
 export type Experience = {
@@ -24,7 +25,8 @@ export type Experience = {
     company: string,
     dateRange?: DateRange,
     location?: string,
-    highlights?: [string, ...string[]],
+    highlights?: string[],
+    references?: string[],
 }
 
 export type Project = {
@@ -32,12 +34,12 @@ export type Project = {
     url?: string
     stack?: string[],
     dateRange?: DateRange,
-    highlights?: [string, ...string[]],
+    highlights?: string[],
 }
 
 export type Skill = {
     category: string,
-    stack: [string, ...string[]],
+    stack: string[],
 }
 
 export type Resume = {
@@ -46,11 +48,15 @@ export type Resume = {
         middle?: string
         last?: string,
     },
-    contacts?: [Contact, ...Contact[]],
-    education?: [Education, ...Education[]],
-    experience?: [Experience, ...Experience[]],
-    projects?: [Project, ...Project[]],
-    skills?: [Skill, ...Skill[]],
+    tagline?: string,
+    summary?: string,
+    contacts?: Contact[],
+    education?: Education[],
+    experience?: Experience[],
+    projects?: Project[],
+    skills?: Skill[],
+    softSkills?: string[],
+    references?: string[],
 }
 
 // -- Zod Schema definitions
@@ -62,6 +68,7 @@ export const dateRangeSchema = z.object({
 export const contactSchema = z.object({
     text: z.string(),
     url: z.string().optional(),
+    type: z.enum(["email", "phone", "linkedin", "github", "website", "location", "other"]).optional(),
 });
 
 export const educationSchema = z.object({
@@ -78,6 +85,7 @@ export const experienceSchema = z.object({
     dateRange: dateRangeSchema.optional(),
     location: z.string().optional(),
     highlights: z.array(z.string()).min(1).optional(),
+    references: z.array(z.string()).min(1).optional(),
 });
 
 export const projectSchema = z.object({
@@ -99,9 +107,13 @@ export const resumeSchema = z.object({
         middle: z.string().optional(),
         last: z.string().optional(),
     }),
+    tagline: z.string().optional(),
+    summary: z.string().optional(),
     contacts: z.array(contactSchema).min(1).optional(),
     education: z.array(educationSchema).min(1).optional(),
     experience: z.array(experienceSchema).min(1).optional(),
     projects: z.array(projectSchema).min(1).optional(),
     skills: z.array(skillSchema).min(1).optional(),
+    softSkills: z.array(z.string()).optional(),
+    references: z.array(z.string()).optional(),
 });

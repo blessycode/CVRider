@@ -1,41 +1,63 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, renderToStream, Link } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, renderToBuffer, Link } from '@react-pdf/renderer';
 import { type Resume, type Education, type Experience, type Project, type Skill, type Contact } from '@/types/Resume';
 
 // Create styles
 const styles = StyleSheet.create({
     page: {
-        backgroundColor: '#E4E4E4',
+        backgroundColor: '#FFFFFF',
         fontFamily: "Times-Roman",
-        padding: 20,
-        fontSize: 12
+        paddingTop: 28,
+        paddingBottom: 28,
+        paddingHorizontal: 34,
+        fontSize: 11,
+        lineHeight: 1.25
     },
     header: {
-        margin: 4,
-        padding: 4,
-        textAlign: "center"
+        textAlign: "center",
+        marginBottom: 8
     },
     headerTitle: {
         fontFamily: "Times-Bold",
-        fontSize: 24
+        fontSize: 22,
+        lineHeight: 1.1
     },
     heading: {
         width: "100%",
-        fontSize: 18,
+        fontSize: 14,
         borderBottomWidth: 1,
         borderBottomColor: "black",
-        marginVertical: 6
+        marginTop: 10,
+        marginBottom: 6,
+        paddingBottom: 2,
+        fontFamily: "Times-Bold"
     },
     bullet: {
         display: "flex",
         flexDirection: "row",
         marginLeft: 10,
-        marginRight: 20
+        marginRight: 0,
+        marginBottom: 2
+    },
+    bulletText: {
+        flex: 1
     },
     sectionInfoLine: {
         display: "flex",
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        alignItems: "baseline",
+        gap: 8
+    },
+    leftCol: {
+        flexGrow: 1,
+        flexShrink: 1,
+        minWidth: 0
+    },
+    rightCol: {
+        flexGrow: 0,
+        flexShrink: 0,
+        textAlign: "right"
     },
     subHeader: {
         fontFamily: "Times-Bold"
@@ -67,16 +89,16 @@ const BasicBullet: React.FC<{ text: string }> = ({ text }: { text: string }) => 
     return (
         <View style={styles.bullet}>
             <Text>{"\u2022 "}</Text>
-            <Text>{text}</Text>
+            <Text style={styles.bulletText}>{text}</Text>
         </View>
     )
 }
 
 const BasicContact: React.FC<{ contacts: Contact[] }> = ({ contacts }: { contacts: Contact[] }) => {
     return (
-        <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+        <View style={{ display: "flex", flexDirection: "row", justifyContent: "center", flexWrap: "wrap", rowGap: 2 }}>
             {contacts.map((contact, index) => {
-                return <View style={{ display: "flex", flexDirection: "row" }}>
+                return <View key={index} style={{ display: "flex", flexDirection: "row" }}>
                     {contact.url ? <Text><Link href={contact.url}>{contact.text}</Link></Text> : <Text>{contact.text}</Text>}
                     {index < contacts.length - 1 && <Text style={{ marginLeft: 2, marginRight: 2 }}>|</Text>}
                 </View>
@@ -87,25 +109,25 @@ const BasicContact: React.FC<{ contacts: Contact[] }> = ({ contacts }: { contact
 
 const BasicEducation: React.FC<{ education: Education }> = ({ education }: { education: Education }) => {
     return (
-        <View>
+        <View style={{ marginBottom: 6 }}>
             <View style={styles.sectionInfoLine}>
-                <View>
+                <View style={styles.leftCol}>
                     <Text style={styles.subHeader}>{education.institution}</Text>
                 </View>
-                <View>
+                <View style={styles.rightCol}>
                     {education.dateRange && <Text>{education.dateRange.end ? `${education.dateRange.start} - ${education.dateRange.end}` : `${education.dateRange.start} - Present`}</Text>}
                 </View>
             </View>
             <View style={styles.sectionInfoLine}>
-                <View>
+                <View style={styles.leftCol}>
                     <Text style={styles.italicized}>{education.credential}</Text>
                 </View>
-                <View>
+                <View style={styles.rightCol}>
                     {education.location && <Text style={styles.italicized}>{education.location}</Text>}
                 </View>
             </View>
             {education.highlights && <View>
-                {education.highlights.map(highlight => <BasicBullet text={highlight} />)}
+                {education.highlights.map((highlight, index) => <BasicBullet key={index} text={highlight} />)}
             </View>}
         </View>
     );
@@ -113,25 +135,29 @@ const BasicEducation: React.FC<{ education: Education }> = ({ education }: { edu
 
 const BasicExperience: React.FC<{ experience: Experience }> = ({ experience }: { experience: Experience }) => {
     return (
-        <View>
+        <View style={{ marginBottom: 6 }}>
             <View style={styles.sectionInfoLine}>
-                <View>
+                <View style={styles.leftCol}>
                     <Text style={styles.subHeader}>{experience.credential}</Text>
                 </View>
-                <View>
+                <View style={styles.rightCol}>
                     {experience.dateRange && <Text>{experience.dateRange.end ? `${experience.dateRange.start} - ${experience.dateRange.end}` : `${experience.dateRange.start} - Present`}</Text>}
                 </View>
             </View>
             <View style={styles.sectionInfoLine}>
-                <View>
+                <View style={styles.leftCol}>
                     <Text style={styles.italicized}>{experience.company}</Text>
                 </View>
-                <View>
+                <View style={styles.rightCol}>
                     {experience.location && <Text style={styles.italicized}>{experience.location}</Text>}
                 </View>
             </View>
             {experience.highlights && <View>
-                {experience.highlights.map(highlight => <BasicBullet text={highlight} />)}
+                {experience.highlights.map((highlight, index) => <BasicBullet key={index} text={highlight} />)}
+            </View>}
+            {experience.references && experience.references.length > 0 && <View style={{ marginTop: 4 }}>
+                <Text style={[styles.subHeader, { fontSize: 10 }]}>References:</Text>
+                {experience.references.map((ref, index) => <BasicBullet key={index} text={ref} />)}
             </View>}
         </View>
     );
@@ -139,23 +165,20 @@ const BasicExperience: React.FC<{ experience: Experience }> = ({ experience }: {
 
 const BasicProject: React.FC<{ project: Project }> = ({ project }: { project: Project }) => {
     return (
-        <View>
+        <View style={{ marginBottom: 6 }}>
             <View style={styles.sectionInfoLine}>
-                <View style={styles.projectLeft}>
+                <View style={[styles.leftCol, styles.projectLeft]}>
                     <Text style={styles.subHeader}>{project.name}</Text>
                     {project.stack
                         && project.stack.length > 0
-                        && <View style={{ display: "flex", flexDirection: "row" }}>
-                            <Text style={{ marginLeft: 2, marginRight: 2 }}>|</Text>
-                            <Text style={styles.projectStack}>{project.stack.join(", ")}</Text>
-                        </View>}
+                        && <Text style={styles.projectStack}>{" | "}{project.stack.join(", ")}</Text>}
                 </View>
-                <View>
+                <View style={styles.rightCol}>
                     {project.dateRange && <Text>{project.dateRange.end ? `${project.dateRange.start} - ${project.dateRange.end}` : `${project.dateRange.start} - Present`}</Text>}
                 </View>
             </View>
             {project.highlights && <View>
-                {project.highlights.map(highlight => <BasicBullet text={highlight} />)}
+                {project.highlights.map((highlight, index) => <BasicBullet key={index} text={highlight} />)}
             </View>}
         </View>
     );
@@ -176,33 +199,39 @@ const BasicResume: React.FC<{ resume: Resume }> = ({ resume }: { resume: Resume 
             <Page size="LETTER" style={styles.page}>
                 <View style={styles.header}>
                     <Text style={styles.headerTitle}>{resume.name.first} {resume.name.last}</Text>
+                    {resume.tagline && <Text style={{ fontSize: 12, marginTop: 2 }}>{resume.tagline}</Text>}
                 </View>
                 {resume.contacts && <View>
                     <BasicContact contacts={resume.contacts} />
+                </View>}
+
+                {resume.summary && <View style={{ marginTop: 10, marginBottom: 4 }}>
+                    <Text style={styles.heading}>Professional Summary</Text>
+                    <Text style={{ lineHeight: 1.25 }}>{resume.summary}</Text>
                 </View>}
                 {resume.education
                     && resume.education.length > 0 // Might not need this check if map over zero cardinality doesn't render... check later
                     && <View>
                         <Text style={styles.heading}>Education</Text>
-                        {resume.education.map(education => <BasicEducation education={education} />)}
+                        {resume.education.map((education, index) => <BasicEducation key={index} education={education} />)}
                     </View>}
                 {resume.experience
                     && resume.experience.length > 0
                     && <View>
                         <Text style={styles.heading}>Experience</Text>
-                        {resume.experience.map(experience => <BasicExperience experience={experience} />)}
+                        {resume.experience.map((experience, index) => <BasicExperience key={index} experience={experience} />)}
                     </View>}
                 {resume.projects
                     && resume.projects.length > 0
                     && <View>
                         <Text style={styles.heading}>Projects</Text>
-                        {resume.projects.map(project => <BasicProject project={project} />)}
+                        {resume.projects.map((project, index) => <BasicProject key={index} project={project} />)}
                     </View>}
                 {resume.skills
                     && resume.skills.length > 0
                     && <View>
                         <Text style={styles.heading}>Skills</Text>
-                        {resume.skills.map(skill => <BasicSkill skill={skill} />)}
+                        {resume.skills.map((skill, index) => <BasicSkill key={index} skill={skill} />)}
                     </View>}
             </Page>
         </Document>
@@ -210,5 +239,11 @@ const BasicResume: React.FC<{ resume: Resume }> = ({ resume }: { resume: Resume 
 }
 
 export const generateBasicResumeStream = async ({ resume }: { resume: Resume }) => {
-    return await renderToStream(<BasicResume resume={resume} />)
+    // Kept for backwards compatibility in case other callers rely on this name;
+    // prefer generateBasicResumeBuffer for Next.js route handlers.
+    return await renderToBuffer(<BasicResume resume={resume} />)
+};
+
+export const generateBasicResumeBuffer = async ({ resume }: { resume: Resume }) => {
+    return await renderToBuffer(<BasicResume resume={resume} />)
 };

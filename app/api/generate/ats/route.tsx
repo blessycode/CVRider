@@ -1,4 +1,4 @@
-import { generateBasicResumeBuffer } from "@/utils/templates/generateBasic";
+import { generateATSResumeBuffer } from "@/utils/templates/generateATS";
 import { Resume, resumeSchema } from "@/types/Resume";
 
 export async function POST(request: Request) {
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
         }
 
         const reqResume: Resume = parseResult.data;
-        const pdfBuffer = await generateBasicResumeBuffer({ resume: reqResume });
+        const pdfBuffer = await generateATSResumeBuffer({ resume: reqResume });
         const pdfBytes = new Uint8Array(pdfBuffer);
 
         const headers = new Headers();

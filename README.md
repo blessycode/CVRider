@@ -29,8 +29,32 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deployment & Database Setup
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is set up for Vercel deployment with Prisma and Auth.js (NextAuth).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Prerequisites
+
+1.  **Database**: Create a PostgreSQL database (e.g., on Vercel Postgres, Supabase, or Railway).
+2.  **Auth**: Set up a GitHub and/or Google OAuth application to get credentials.
+
+### Environment Variables
+
+Add the following to your `.env` (local) or Vercel Environment Variables:
+
+- `DATABASE_URL`: Your PostgreSQL connection string.
+- `AUTH_SECRET`: Generate one with `npx auth secret`.
+- `GITHUB_ID` / `GITHUB_SECRET`: From GitHub Developer Settings.
+- `GOOGLE_ID` / `GOOGLE_SECRET`: From Google Cloud Console.
+
+### Local Setup
+
+1.  Run `npm install`.
+2.  Run `npx prisma db push` to sync your database schema.
+3.  Run `npm run dev`.
+
+### Vercel Deployment
+
+1.  Connect your repository to Vercel.
+2.  Add the environment variables listed above.
+3.  Vercel will automatically run `next build`, which includes the Prisma client generation.
