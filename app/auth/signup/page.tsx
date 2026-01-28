@@ -3,12 +3,9 @@
 import { useState, useTransition } from "react";
 import Link from 'next/link';
 import { signup } from "@/actions/signup";
-import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
-    const router = useRouter();
     const [error, setError] = useState<string | undefined>("");
-    const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,18 +16,16 @@ export default function SignupPage() {
         const password = formData.get("password") as string;
 
         setError("");
-        setSuccess("");
 
         startTransition(() => {
             signup({ name, email, password }).then((data) => {
-                setError(data?.error);
-                setSuccess(data?.success);
-
-                if (data?.success) {
-                    setTimeout(() => {
-                        router.push("/auth/login");
-                    }, 1000);
+                if (data?.error) {
+                    setError(data.error);
                 }
+                // If no error, the redirect() will happen automatically
+            }).catch((err) => {
+                // Handle any unexpected errors
+                setError("Something went wrong!");
             });
         });
     };
@@ -85,12 +80,6 @@ export default function SignupPage() {
                     {error && (
                         <div className="rounded-lg bg-red-50 p-3 text-sm text-red-500 border border-red-100">
                             {error}
-                        </div>
-                    )}
-
-                    {success && (
-                        <div className="rounded-lg bg-emerald-50 p-3 text-sm text-emerald-500 border border-emerald-100">
-                            {success}
                         </div>
                     )}
 
