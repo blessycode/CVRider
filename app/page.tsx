@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { LandingHeader } from './components/LandingHeader';
 import { auth } from "@/auth";
+import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
 import {
   CheckCircle2,
   FileText,
@@ -240,25 +241,59 @@ export default async function LandingPage() {
       </section>
 
       <footer className="border-t border-zinc-200 bg-white py-12">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-            <div className="flex items-center gap-2">
-              <div className="flex h-6 w-6 items-center justify-center rounded bg-zinc-900 text-white">
-                <span className="font-bold text-[10px]">CV</span>
-              </div>
-              <span className="font-bold text-zinc-900">CVRider</span>
-            </div>
-            <p className="text-sm text-zinc-500">
-              &copy; {new Date().getFullYear()} CVRider. All rights reserved.
-            </p>
-            <div className="flex gap-6 text-sm text-zinc-500">
-              <a href="#" className="hover:text-zinc-900 transition-colors">Twitter</a>
-              <a href="#" className="hover:text-zinc-900 transition-colors">LinkedIn</a>
-              <a href="#" className="hover:text-zinc-900 transition-colors">Privacy</a>
-            </div>
-          </div>
+  <div className="mx-auto max-w-7xl px-6">
+    <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+      <div className="flex items-center gap-2">
+        <div className="flex h-6 w-6 items-center justify-center rounded bg-zinc-900 text-white">
+          <span className="font-bold text-[10px]">CV</span>
         </div>
-      </footer>
+        <span className="font-bold text-zinc-900">CVRider</span>
+      </div>
+      <p className="text-sm text-zinc-500">
+        &copy; {new Date().getFullYear()} CVRider. All rights reserved.
+      </p>
+      <div className="flex gap-4 text-zinc-500">
+        <a 
+          href="https://github.com/blessycode" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="hover:text-zinc-900 transition-colors"
+          title="GitHub"
+        >
+          <Github size={20} />
+        </a>
+        <a 
+          href="https://x.com/bless13210" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="hover:text-zinc-900 transition-colors"
+          title="Twitter"
+        >
+          <Twitter size={20} />
+        </a>
+        <a 
+          href="www.linkedin.com/in/blessed-zhou" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="hover:text-zinc-900 transition-colors"
+          title="LinkedIn"
+        >
+          <Linkedin size={20} />
+        </a>
+        <a 
+          href="mailto:contact@cvrider.com" 
+          className="hover:text-zinc-900 transition-colors"
+          title="Email"
+        >
+          <Mail size={20} />
+        </a>
+      </div>
+    </div>
+    <div className="mt-8 border-t border-zinc-100 pt-6 text-center text-xs text-zinc-400">
+      <p>Developed by <a href="https://blessy-io.vercel.app/" target="_blank" rel="noopener noreferrer" className="font-semibold text-zinc-600 hover:text-zinc-900 transition-colors">Blessy</a></p>
+    </div>
+  </div>
+</footer>
     </div>
   );
 }
