@@ -1,7 +1,35 @@
+"use client";
 
+import { useState, useTransition } from "react";
 import Link from 'next/link';
+import { login } from "@/actions/login";
 
 export default function LoginPage() {
+    const [error, setError] = useState<string | undefined>("");
+    const [success, setSuccess] = useState<string | undefined>("");
+    const [isPending, startTransition] = useTransition();
+
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
+
+        setError("");
+        setSuccess("");
+
+        startTransition(() => {
+            login({ email, password }).then((data) => {
+                if (data?.error) {
+                    setError(data.error);
+                }
+                if (data?.success) {
+                    setSuccess(data.success);
+                }
+            });
+        });
+    };
+
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-[#f5f6fa] p-6">
             <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl border border-zinc-100">
@@ -13,11 +41,14 @@ export default function LoginPage() {
                     <p className="text-zinc-500 mt-2">Sign in to your CVRider account</p>
                 </div>
 
-                <form className="flex flex-col gap-4">
+                <form onSubmit={onSubmit} className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2">
                         <label className="text-sm font-semibold text-zinc-700">Email</label>
                         <input
+                            name="email"
                             type="email"
+                            required
+                            disabled={isPending}
                             className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
                             placeholder="you@example.com"
                         />
@@ -25,14 +56,38 @@ export default function LoginPage() {
                     <div className="flex flex-col gap-2">
                         <label className="text-sm font-semibold text-zinc-700">Password</label>
                         <input
+                            name="password"
                             type="password"
+                            required
+                            disabled={isPending}
                             className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
                             placeholder="••••••••"
                         />
+                        <div className="flex justify-end">
+                            <Link href="/auth/forgot-password" className="text-sm font-medium text-[#1e3a8a] hover:underline">
+                                Forgot password?
+                            </Link>
+                        </div>
                     </div>
 
-                    <button type="button" className="mt-4 rounded-lg bg-[#1e3a8a] py-3 font-semibold text-white shadow-lg transition-all hover:bg-blue-900 hover:shadow-xl hover:-translate-y-0.5">
-                        Sign In
+                    {error && (
+                        <div className="rounded-lg bg-red-50 p-3 text-sm text-red-500 border border-red-100">
+                            {error}
+                        </div>
+                    )}
+
+                    {success && (
+                        <div className="rounded-lg bg-emerald-50 p-3 text-sm text-emerald-500 border border-emerald-100">
+                            {success}
+                        </div>
+                    )}
+
+                    <button
+                        type="submit"
+                        disabled={isPending}
+                        className="mt-4 rounded-lg bg-[#1e3a8a] py-3 font-semibold text-white shadow-lg transition-all hover:bg-blue-900 hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50"
+                    >
+                        {isPending ? "Signing In..." : "Sign In"}
                     </button>
                 </form>
 

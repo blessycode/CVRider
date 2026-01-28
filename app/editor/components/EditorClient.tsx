@@ -4,8 +4,15 @@ import { useState } from "react";
 import { Resume } from "@/types/Resume";
 import { ResumeForm } from "@/app/components/ResumeForm";
 import { PreviewPanel } from "@/app/components/PreviewPanel";
+import { Session } from "next-auth";
+import { logout } from "@/actions/logout";
+import Link from "next/link";
 
-export function EditorClient() {
+interface EditorClientProps {
+    session: Session | null;
+}
+
+export function EditorClient({ session }: EditorClientProps) {
     const [loading, setLoading] = useState(false);
     const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
@@ -155,16 +162,25 @@ export function EditorClient() {
         <div className="min-h-screen bg-[#f5f6fa] font-sans text-zinc-900">
             <header className="sticky top-0 z-20 border-b border-zinc-200 bg-white/80 backdrop-blur-md px-6 py-4">
                 <div className="mx-auto flex max-w-[1400px] items-center justify-between">
-                    <div className="flex items-center gap-3">
+                    <Link href="/" className="flex items-center gap-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#1e3a8a] text-white shadow-md">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14 2 14 8 20 8" /><path d="M8 13h8" /><path d="M8 17h8" /><path d="M10 9h8" /></svg>
                         </div>
                         <h1 className="text-xl font-bold tracking-tight text-[#1e3a8a]">CVRider</h1>
-                    </div>
+                    </Link>
                     <div className="flex items-center gap-4">
-                        <span className="hidden text-sm font-medium text-zinc-500 sm:block">
-                            Professional Resume Builder
-                        </span>
+                        {session && (
+                            <>
+                                <span className="text-sm font-medium text-zinc-600">
+                                    Hi, <span className="text-zinc-900 font-bold">{session.user?.name || session.user?.email}</span>
+                                </span>
+                                <form action={logout}>
+                                    <button type="submit" className="text-sm font-medium text-zinc-600 hover:text-red-500 transition-colors">
+                                        Log out
+                                    </button>
+                                </form>
+                            </>
+                        )}
                     </div>
                 </div>
             </header>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { LandingHeader } from './components/LandingHeader';
+import { auth } from "@/auth";
 import {
   CheckCircle2,
   FileText,
@@ -12,10 +13,12 @@ import {
   ShieldCheck
 } from 'lucide-react';
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const session = await auth();
+
   return (
     <div className="min-h-screen bg-white font-sans text-zinc-900 selection:bg-blue-100 selection:text-blue-900">
-      <LandingHeader />
+      <LandingHeader session={session} />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-32 pb-20 lg:pt-48 lg:pb-32">
@@ -43,18 +46,20 @@ export default function LandingPage() {
               </p>
               <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
                 <Link
-                  href="/auth/signup"
+                  href={session ? "/editor" : "/auth/signup"}
                   className="group inline-flex h-12 items-center justify-center rounded-full bg-zinc-900 px-8 text-base font-semibold text-white transition-all hover:bg-zinc-800 hover:shadow-xl active:scale-95"
                 >
-                  Get Started
+                  {session ? "Go to Editor" : "Get Started"}
                   <ArrowRight size={18} className="ml-2 transition-transform group-hover:translate-x-1" />
                 </Link>
-                <Link
-                  href="#features"
-                  className="inline-flex h-12 items-center justify-center rounded-full border border-zinc-200 bg-white px-8 text-base font-medium text-zinc-600 transition-all hover:bg-zinc-50 hover:text-zinc-900 active:scale-95"
-                >
-                  View Templates
-                </Link>
+                {!session && (
+                  <Link
+                    href="#features"
+                    className="inline-flex h-12 items-center justify-center rounded-full border border-zinc-200 bg-white px-8 text-base font-medium text-zinc-600 transition-all hover:bg-zinc-50 hover:text-zinc-900 active:scale-95"
+                  >
+                    View Templates
+                  </Link>
+                )}
               </div>
             </div>
 
@@ -210,10 +215,10 @@ export default function LandingPage() {
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link
-                href="/auth/signup"
+                href={session ? "/editor" : "/auth/signup"}
                 className="rounded-full bg-white px-8 py-3.5 text-base font-semibold text-zinc-900 shadow-sm hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-all active:scale-95"
               >
-                Start Building Your CV
+                {session ? "Open CV Editor" : "Start Building Your CV"}
               </Link>
             </div>
             {/* Background SVG Decoration */}

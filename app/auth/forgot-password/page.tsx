@@ -2,11 +2,9 @@
 
 import { useState, useTransition } from "react";
 import Link from 'next/link';
-import { signup } from "@/actions/signup";
-import { useRouter } from "next/navigation";
+import { forgotPassword } from "@/actions/forgot-password";
 
-export default function SignupPage() {
-    const router = useRouter();
+export default function ForgotPasswordPage() {
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
@@ -14,23 +12,15 @@ export default function SignupPage() {
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const name = formData.get("name") as string;
         const email = formData.get("email") as string;
-        const password = formData.get("password") as string;
 
         setError("");
         setSuccess("");
 
         startTransition(() => {
-            signup({ name, email, password }).then((data) => {
+            forgotPassword({ email }).then((data) => {
                 setError(data?.error);
                 setSuccess(data?.success);
-
-                if (data?.success) {
-                    setTimeout(() => {
-                        router.push("/auth/login");
-                    }, 1000);
-                }
             });
         });
     };
@@ -42,43 +32,20 @@ export default function SignupPage() {
                     <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#1e3a8a] text-white shadow-md mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14 2 14 8 20 8" /><path d="M8 13h8" /><path d="M8 17h8" /><path d="M10 9h8" /></svg>
                     </div>
-                    <h2 className="text-2xl font-bold text-zinc-900">Create account</h2>
-                    <p className="text-zinc-500 mt-2">Get started with CVRider today</p>
+                    <h2 className="text-2xl font-bold text-zinc-900">Forgot your password?</h2>
+                    <p className="text-zinc-500 mt-2">Enter your email and we'll send you a link to reset your password.</p>
                 </div>
 
                 <form onSubmit={onSubmit} className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-2">
-                        <label className="text-sm font-semibold text-zinc-700">Full Name</label>
-                        <input
-                            name="name"
-                            type="text"
-                            required
-                            disabled={isPending}
-                            className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
-                            placeholder="John Doe"
-                        />
-                    </div>
                     <div className="flex flex-col gap-2">
                         <label className="text-sm font-semibold text-zinc-700">Email</label>
                         <input
                             name="email"
                             type="email"
-                            required
                             disabled={isPending}
                             className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
                             placeholder="you@example.com"
-                        />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label className="text-sm font-semibold text-zinc-700">Password</label>
-                        <input
-                            name="password"
-                            type="password"
                             required
-                            minLength={6}
-                            disabled={isPending}
-                            className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
-                            placeholder="••••••••"
                         />
                     </div>
 
@@ -99,12 +66,12 @@ export default function SignupPage() {
                         disabled={isPending}
                         className="mt-4 rounded-lg bg-[#1e3a8a] py-3 font-semibold text-white shadow-lg transition-all hover:bg-blue-900 hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50"
                     >
-                        {isPending ? "Creating Account..." : "Create Account"}
+                        {isPending ? "Sending..." : "Send Reset Link"}
                     </button>
                 </form>
 
                 <div className="mt-6 text-center text-sm text-zinc-500">
-                    <p>Already have an account? <Link href="/auth/login" className="font-semibold text-[#1e3a8a] hover:underline">Sign in</Link></p>
+                    <p>Remember your password? <Link href="/auth/login" className="font-semibold text-[#1e3a8a] hover:underline">Back to login</Link></p>
                 </div>
             </div>
 
