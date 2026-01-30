@@ -1,22 +1,16 @@
 import NextAuth from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "@/lib/prisma"
-import Github from "next-auth/providers/github";
-import Google from "next-auth/providers/google";
-import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { z } from "zod";
+import { authConfig } from "./auth.config"
+import Credentials from "next-auth/providers/credentials"
+import bcrypt from "bcryptjs"
+import { z } from "zod"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+    ...authConfig,
     adapter: PrismaAdapter(prisma),
-    trustHost: true,
-    debug: process.env.NODE_ENV === "development",
-    pages: {
-        signIn: "/auth/login",
-    },
     providers: [
-        Github,
-        Google,
+        ...authConfig.providers,
         Credentials({
             async authorize(credentials) {
                 const parsedCredentials = z
@@ -37,19 +31,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             },
         }),
     ],
-    session: { strategy: "jwt" },
-    callbacks: {
-        async jwt({ token, user }) {
-            if (user) {
-                token.id = user.id;
-            }
-            return token;
-        },
-        async session({ session, token }) {
-            if (token.id && session.user) {
-                session.user.id = token.id as string;
-            }
-            return session;
-        },
+    trustHost: true,
+    debug: process.env.NODE_ENV === "development",
+    pages: {
+        signIn: "/auth/login",
     },
 });
+

@@ -1,15 +1,21 @@
-import { auth } from "@/auth";
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
+
+const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
     const { nextUrl } = req;
     const isLoggedIn = !!req.auth;
 
-    // Add any custom logic here if needed
-    // For example, protecting specific routes
+    // Optional: Protect routes
+    // if (!isLoggedIn && nextUrl.pathname !== "/auth/login") {
+    //   return Response.redirect(new URL("/auth/login", nextUrl));
+    // }
+
     return;
 });
 
-// Optionally, don't invoke Middleware on some paths
 export const config = {
     matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
+
