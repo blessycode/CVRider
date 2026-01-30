@@ -10,15 +10,23 @@ const createPrismaClient = () => {
     const connectionString = process.env.DATABASE_URL;
 
     if (!connectionString) {
+        console.error("DATABASE_URL is missing in environment variables!");
         throw new Error("DATABASE_URL is not defined");
     }
 
-    const pool = new Pool({ connectionString });
+    // Improved Pool configuration for serverless environments (like Vercel)
+    const pool = new Pool({
+        connectionString,
+        max: 10, // Limit connections to prevent Supabase saturation
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 5000,
+    });
+
     const adapter = new PrismaPg(pool);
 
     return new PrismaClient({
         adapter,
-        log: ["error", "warn"],
+        log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error", "warn"],
     });
 };
 

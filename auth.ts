@@ -9,6 +9,11 @@ import { z } from "zod";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     adapter: PrismaAdapter(prisma),
+    trustHost: true,
+    debug: process.env.NODE_ENV === "development",
+    pages: {
+        signIn: "/auth/login",
+    },
     providers: [
         Github,
         Google,

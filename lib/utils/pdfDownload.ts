@@ -5,8 +5,6 @@ import * as htmlToImage from "html-to-image";
 
 /**
  * Super-Robust PDF Downloader using html-to-image + jsPDF
- * This version uses pixelRatio for scaling, which is much more reliable
- * than CSS transforms and avoids the "white box" layout artifacts.
  */
 export const downloadPDF = async (fileName: string = "cv"): Promise<void> => {
     const element = document.getElementById("cv-pdf-target");
@@ -19,39 +17,61 @@ export const downloadPDF = async (fileName: string = "cv"): Promise<void> => {
     try {
         console.log("Starting Capture with html-to-image...");
 
-        // Capture as PNG with high pixel ratio for retina-quality text
+        // 1. Remove focus artifacts from the capture
+        if (typeof document !== 'undefined' && document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
+
+        // 2. Clear any selection
+        if (typeof window !== 'undefined' && window.getSelection) {
+            window.getSelection()?.removeAllRanges();
+        }
+
+        // Wait for rendering to stabilize
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        // 3. Capture DOM to high-quality Image
         const dataUrl = await htmlToImage.toPng(element, {
-            pixelRatio: 2, // High resolution (2x)
-            backgroundColor: '#ffffff', // Force white background
+            pixelRatio: 2.5, // Even higher resolution for ultra-sharp text
+            backgroundColor: '#ffffff',
             cacheBust: true,
             style: {
-                // Ensure the container has no weird artifacts during capture
-                outline: 'none',
-                border: 'none',
-                boxShadow: 'none',
+                // Force removal of all outlines, shadows, and borders that cause artifacts
+                outline: 'none !important',
+                border: 'none !important',
+                boxShadow: 'none !important',
+                userSelect: 'none !important',
+                webkitUserSelect: 'none !important',
+                // Reset common causes of "white boxes"
+                webkitFontSmoothing: 'antialiased',
+                mozOsxFontSmoothing: 'grayscale',
             }
         });
 
-        console.log("Image captured. Building PDF...");
+        console.log("Image captured. Building PDF Document...");
 
-        // Create PDF - A4 Standard
-        const pdf = new jsPDF("p", "mm", "a4");
+        // 4. Create PDF Document (A4 size)
+        const pdf = new jsPDF({
+            orientation: "p",
+            unit: "mm",
+            format: "a4",
+            compress: true
+        });
+
         const pdfWidth = 210;
         const pdfHeight = 297;
 
-        // Calculate dimensions to fit the page width
-        // We use the element's client dimensions because pixelRatio handles the scaling
+        // Calculate aspect ratio to fit the page
         const imgWidth = pdfWidth;
         const imgHeight = (element.scrollHeight * pdfWidth) / element.scrollWidth;
 
         let heightLeft = imgHeight;
         let position = 0;
 
-        // Add first page
+        // 5. Add generated image to PDF pages
         pdf.addImage(dataUrl, "PNG", 0, position, imgWidth, imgHeight, undefined, 'FAST');
         heightLeft -= pdfHeight;
 
-        // Multi-page support
         while (heightLeft > 0) {
             position = heightLeft - imgHeight;
             pdf.addPage();
@@ -59,11 +79,13 @@ export const downloadPDF = async (fileName: string = "cv"): Promise<void> => {
             heightLeft -= pdfHeight;
         }
 
+        // 6. Download file
         pdf.save(`${fileName}.pdf`);
-        console.log("PDF download complete.");
+        console.log("PDF generation success.");
 
     } catch (error) {
-        console.error("PDF Capture failed:", error);
+        console.error("PDF Capture failure:", error);
+        alert("We encountered an issue while generating the high-quality PDF. Please try one more time.");
         throw error;
     }
 };
