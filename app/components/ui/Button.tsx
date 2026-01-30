@@ -13,20 +13,20 @@ export const Button: React.FC<ButtonProps> = ({
     className = "",
     ...props
 }) => {
-    const baseStyles = "inline-flex items-center justify-center rounded-xl font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:pointer-events-none";
+    const baseStyles = "inline-flex items-center justify-center rounded-2xl font-bold transition-all focus:outline-none active:scale-95 disabled:opacity-50 disabled:pointer-events-none uppercase tracking-widest text-[11px]";
 
     const variants = {
-        primary: "bg-[#1e3a8a] text-white hover:bg-blue-900 shadow-md hover:shadow-lg focus:ring-blue-900", // Deep blue
-        secondary: "bg-blue-50 text-blue-700 hover:bg-blue-100 focus:ring-blue-500",
-        outline: "border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900",
-        ghost: "bg-transparent text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
-        destructive: "bg-red-50 text-red-600 hover:bg-red-100 focus:ring-red-500",
+        primary: "bg-gray-900 text-white hover:bg-black shadow-lg shadow-gray-200",
+        secondary: "bg-blue-50 text-blue-700 hover:bg-blue-100",
+        outline: "border-2 border-gray-100 bg-white text-gray-500 hover:border-gray-900 hover:text-gray-900",
+        ghost: "bg-transparent text-gray-400 hover:text-gray-900",
+        destructive: "bg-red-50 text-red-600 hover:bg-red-100",
     };
 
     const sizes = {
-        sm: "h-8 px-3 text-xs",
-        md: "h-10 px-4 text-sm",
-        lg: "h-12 px-6 text-base",
+        sm: "h-9 px-4",
+        md: "h-12 px-6",
+        lg: "h-14 px-8 text-[12px]",
     };
 
     return (

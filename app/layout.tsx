@@ -9,6 +9,18 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+import { Playfair_Display, Montserrat } from "next/font/google";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+});
+
 export const metadata: Metadata = {
   title: "CVRider | Professional Resume Builder",
   description: "Build a beautiful, professional resume in minutes.",
@@ -21,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased bg-[#f5f6fa] text-[#222]`}>
+      <body className={`${inter.variable} ${playfair.variable} ${montserrat.variable} font-sans antialiased bg-[#f5f6fa] text-[#222]`}>
         <Providers>
           {children}
         </Providers>

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from "./ui/Button";
-import { Plus, X } from "lucide-react";
+import { Plus, X, GripVertical } from "lucide-react";
 
 interface BulletListProps {
     items: string[];
@@ -25,36 +25,40 @@ export const BulletList: React.FC<BulletListProps> = ({ items, onChange, title =
     };
 
     return (
-        <div className="flex flex-col gap-3">
-            <label className="text-sm font-semibold text-zinc-700">{title}</label>
-            {items.map((item, index) => (
-                <div key={index} className="flex gap-2">
-                    <input
-                        type="text"
-                        value={item}
-                        onChange={(e) => updateItem(index, e.target.value)}
-                        className="flex-1 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100 placeholder:text-zinc-400"
-                        placeholder="e.g. Achieved 20% growth in..."
-                    />
-                    <button
-                        type="button"
-                        onClick={() => removeItem(index)}
-                        className="text-zinc-400 hover:text-red-500 transition-colors"
-                    >
-                        <X size={18} />
-                    </button>
-                </div>
-            ))}
-            <Button
-                variant="ghost"
-                size="sm"
-                onClick={addItem}
-                className="self-start gap-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+        <div className="flex flex-col gap-4">
+            <label className="text-[13px] font-bold text-gray-700 ml-1 uppercase tracking-wider">{title}</label>
+            <div className="space-y-3">
+                {items.map((item, index) => (
+                    <div key={index} className="flex gap-3 items-center group/item">
+                        <div className="text-gray-300 group-hover/item:text-gray-400 transition-colors">
+                            <GripVertical size={16} />
+                        </div>
+                        <input
+                            type="text"
+                            value={item}
+                            onChange={(e) => updateItem(index, e.target.value)}
+                            className="flex-1 rounded-xl border-2 border-transparent bg-gray-50 px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-blue-600 focus:bg-white transition-all placeholder:text-gray-400"
+                            placeholder="e.g. Achieved 20% growth in..."
+                        />
+                        <button
+                            type="button"
+                            onClick={() => removeItem(index)}
+                            className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                        >
+                            <X size={18} />
+                        </button>
+                    </div>
+                ))}
+            </div>
+
+            <button
                 type="button"
+                onClick={addItem}
+                className="self-start flex items-center gap-2 px-4 py-2 text-[11px] font-bold text-blue-600 uppercase tracking-widest hover:bg-blue-50 rounded-xl transition-all ml-7"
             >
                 <Plus size={14} />
-                Add Highlight
-            </Button>
+                Add New Highlight
+            </button>
         </div>
     );
 };
