@@ -45,7 +45,7 @@ export const downloadPDF = async (fileName: string = "cv"): Promise<void> => {
                 // Reset common causes of "white boxes"
                 webkitFontSmoothing: 'antialiased',
                 mozOsxFontSmoothing: 'grayscale',
-            }
+            } as any
         });
 
         console.log("Image captured. Building PDF Document...");
