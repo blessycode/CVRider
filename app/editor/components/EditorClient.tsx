@@ -150,16 +150,26 @@ export function EditorClient({ session }: EditorClientProps) {
     };
 
     const [isDownloading, setIsDownloading] = useState(false);
+    const [isCapturing, setIsCapturing] = useState(false);
+
+
 
     const handleDownload = async () => {
         try {
             setIsDownloading(true);
+            setIsCapturing(true); // Show the div
+
             const fileName = `${resumeData.name.first}_${resumeData.name.last}_CV`.replace(/\s+/g, '_');
+
+            // Wait for render
+            await new Promise(resolve => setTimeout(resolve, 500));
+
             await downloadPDF(fileName);
         } catch (error) {
             console.error("Download failed:", error);
             alert("Failed to generate PDF. Please try again.");
         } finally {
+            setIsCapturing(false); // Hide the div
             setIsDownloading(false);
         }
     };
@@ -169,8 +179,23 @@ export function EditorClient({ session }: EditorClientProps) {
     };
 
     return (
-        <div className="flex h-screen bg-[#f8fafc] overflow-hidden font-sans">
+        <div className="flex h-screen bg-[#f8fafc] overflow-hidden font-sans relative">
+            {/* Download Overlay */}
+            {isDownloading && (
+                <div className="fixed inset-0 z-[10000] bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center p-8 text-center">
+                    <div className="relative mb-8">
+                        <div className="w-20 h-20 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin"></div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <Download className="text-blue-600 animate-bounce" size={24} />
+                        </div>
+                    </div>
+                    <h3 className="text-2xl font-serif font-bold text-gray-900 mb-2">Generating your CV...</h3>
+                    <p className="text-gray-500 max-w-xs font-medium">Please wait a moment while we prepare your professional document.</p>
+                </div>
+            )}
+
             {/* Desktop Sidebar Navigation */}
+
             <aside className={`bg-white border-r border-gray-200 transition-all duration-300 flex flex-col z-40 ${isSidebarOpen ? 'w-72' : 'w-0 -ml-1 overflow-hidden lg:w-20 lg:ml-0'}`}>
                 <div className="p-6 flex items-center gap-3 border-b border-gray-100 h-[73px]">
                     <Link href="/" className="flex items-center gap-3 group whitespace-nowrap">
@@ -385,19 +410,20 @@ export function EditorClient({ session }: EditorClientProps) {
                 </div>
             </div>
 
-            {/* Hidden off-screen preview for PDF generation (always rendered) */}
+            {/* Final PDF Capture Container - Hidden offscreen but rendered at 100% opacity for capture tools */}
             <div
-                className="fixed"
+                className="fixed left-0 top-0 bg-white"
                 style={{
-                    left: '-9999px',
-                    top: 0,
+                    zIndex: isCapturing ? 9999 : -50,
+                    opacity: 1,
+                    visibility: 'visible',
                     width: '210mm',
-                    visibility: 'hidden',
+                    minHeight: '297mm',
+                    left: isCapturing ? 0 : '-10000px',
                     pointerEvents: 'none'
                 }}
-                aria-hidden="true"
             >
-                <div id="cv-preview-content" className="bg-white">
+                <div id="cv-pdf-target" className="bg-white">
                     {(() => {
                         const template = TEMPLATES.find(t => t.id === selectedTemplateId) || TEMPLATES[0];
                         const TemplateComponent = template.component;
