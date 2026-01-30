@@ -28,17 +28,18 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
             password,
             redirectTo: "/",
         });
-    } catch (error) {
+    } catch (error: any) {
+        console.error("Login error details:", error);
         if (error instanceof AuthError) {
             switch (error.type) {
                 case "CredentialsSignin":
                     return { error: "Invalid credentials!" };
                 default:
-                    return { error: "Something went wrong!" };
+                    return { error: error.message || "Something went wrong!" };
             }
         }
 
-        throw error;
+        return { error: error.message || "An unexpected error occurred." };
     }
 
     return { success: "Logged in!" };

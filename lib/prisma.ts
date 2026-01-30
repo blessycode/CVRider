@@ -19,7 +19,10 @@ const createPrismaClient = () => {
         connectionString,
         max: 10, // Limit connections to prevent Supabase saturation
         idleTimeoutMillis: 30000,
-        connectionTimeoutMillis: 5000,
+        connectionTimeoutMillis: 10000,
+        ssl: {
+            rejectUnauthorized: false // Required for Supabase connections from Vercel
+        }
     });
 
     const adapter = new PrismaPg(pool);

@@ -42,8 +42,9 @@ export const signup = async (values: z.infer<typeof SignupSchema>) => {
                 password: hashedPassword,
             },
         });
-    } catch (error) {
-        return { error: "Something went wrong!" };
+    } catch (error: any) {
+        console.error("Signup error details:", error);
+        return { error: error.message || "Something went wrong during signup!" };
     }
 
     redirect("/auth/login");
