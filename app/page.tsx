@@ -5,19 +5,14 @@ import { TemplateGallery } from '@/components/landing/TemplateGallery';
 import { Testimonials } from '@/components/landing/Testimonials';
 import { FinalCTA } from '@/components/landing/FinalCTA';
 import { Footer } from '@/components/landing/Footer';
-import { auth } from "@/auth";
-
 export default async function LandingPage() {
-  const session = await auth();
-
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden">
-      <LandingHeader session={session} />
+      <LandingHeader />
 
       <main>
         <Hero />
         <Features />
-        <TemplateGallery />
         <Testimonials />
         <FinalCTA />
       </main>

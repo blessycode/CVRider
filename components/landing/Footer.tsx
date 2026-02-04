@@ -1,21 +1,25 @@
 import Link from 'next/link';
-import { Github, Twitter, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
+import { Github, Twitter, Linkedin, Mail, ArrowUpRight, Sparkles } from 'lucide-react';
 
 export const Footer = () => {
     return (
-        <footer className="bg-white border-t border-gray-100 pt-24 pb-12 px-6">
-            <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-                    {/* Brand Col */}
-                    <div className="lg:col-span-1">
-                        <Link href="/" className="flex items-center gap-2 mb-6">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-900 text-white shadow-lg">
-                                <span className="font-serif font-bold text-lg">CV</span>
+        <footer className="bg-white border-t border-gray-50 pt-32 pb-16 px-6 relative overflow-hidden">
+            {/* Soft Ambient Glow */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-blue-50/50 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+
+            <div className="max-w-7xl mx-auto relative z-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
+
+                    {/* Brand Column */}
+                    <div className="lg:col-span-4">
+                        <Link href="/" className="flex items-center gap-4 mb-10 group">
+                            <div className="flex h-14 w-14 items-center justify-center rounded-[1.25rem] bg-gray-900 text-white shadow-2xl transition-all group-hover:scale-105 group-hover:-rotate-3">
+                                <span className="font-serif font-black text-2xl">CV</span>
                             </div>
-                            <span className="text-2xl font-serif font-bold text-gray-900 tracking-tight">CVRider</span>
+                            <span className="text-3xl font-heading font-black text-gray-900 tracking-tight">CVRider</span>
                         </Link>
-                        <p className="text-gray-500 font-medium leading-relaxed mb-8">
-                            An open-source resume builder designed to help you create professional, ATS-friendly resumes in minutes.
+                        <p className="text-gray-500 font-medium leading-relaxed mb-10 max-w-sm">
+                            The next generation of career development tools. Open-source, high-precision, and completely free forever.
                         </p>
                         <div className="flex gap-4">
                             {[
@@ -29,7 +33,7 @@ export const Footer = () => {
                                     href={social.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:border-blue-100 hover:bg-blue-50 transition-all"
+                                    className="w-12 h-12 rounded-2xl bg-gray-50 border border-transparent flex items-center justify-center text-gray-400 hover:text-blue-600 hover:border-blue-100 hover:bg-white hover:shadow-xl transition-all"
                                 >
                                     {social.icon}
                                 </a>
@@ -37,45 +41,59 @@ export const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Product Col */}
-                    <div>
-                        <h4 className="text-sm font-bold uppercase tracking-widest text-gray-900 mb-8 font-heading">Product</h4>
-                        <ul className="space-y-4 font-medium text-gray-500">
-                            <li><Link href="#features" className="hover:text-blue-600 transition-colors flex items-center gap-1">Features <ArrowUpRight size={14} /></Link></li>
-                            <li><Link href="#templates" className="hover:text-blue-600 transition-colors flex items-center gap-1">Templates <ArrowUpRight size={14} /></Link></li>
-                            <li><Link href="/editor" className="hover:text-blue-600 transition-colors flex items-center gap-1">Resume Editor <ArrowUpRight size={14} /></Link></li>
-                        </ul>
-                    </div>
+                    {/* Navigation Columns */}
+                    <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-12">
+                        <div>
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-900 mb-10">Evolution</h4>
+                            <ul className="space-y-5 font-bold text-sm text-gray-500">
+                                <li><Link href="#features" className="hover:text-blue-600 transition-colors flex items-center justify-between group">Core Features <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" /></Link></li>
+                                <li><Link href="/editor" className="hover:text-blue-600 transition-colors flex items-center justify-between group">Resume Engine <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" /></Link></li>
+                            </ul>
+                        </div>
 
-                    {/* Resources Col */}
-                    <div>
-                        <h4 className="text-sm font-bold uppercase tracking-widest text-gray-900 mb-8 font-heading">Resources</h4>
-                        <ul className="space-y-4 font-medium text-gray-500">
-                            <li><a href="https://github.com/blessycode/CVRider" className="hover:text-blue-600 transition-colors">Documentation</a></li>
-                            <li><a href="#" className="hover:text-blue-600 transition-colors">Career Blog</a></li>
-                            <li><a href="#" className="hover:text-blue-600 transition-colors">Resumes Examples</a></li>
-                        </ul>
-                    </div>
+                        <div>
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-900 mb-10">Resources</h4>
+                            <ul className="space-y-5 font-bold text-sm text-gray-500">
+                                <li><a href="https://github.com/blessycode/CVRider" className="hover:text-blue-600 transition-colors">OS Documentation</a></li>
+                                <li><a href="#" className="hover:text-blue-600 transition-colors">Career Insights</a></li>
+                                <li><a href="#" className="hover:text-blue-600 transition-colors">Global Standards</a></li>
+                            </ul>
+                        </div>
 
-                    {/* Legal Col */}
-                    <div>
-                        <h4 className="text-sm font-bold uppercase tracking-widest text-gray-900 mb-8 font-heading">Legal</h4>
-                        <ul className="space-y-4 font-medium text-gray-500">
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Privacy Policy</Link></li>
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Terms of Service</Link></li>
-                            <li><Link href="#" className="hover:text-blue-600 transition-colors">Cookie Policy</Link></li>
-                        </ul>
+                        <div>
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-900 mb-10">Legal</h4>
+                            <ul className="space-y-5 font-bold text-sm text-gray-500">
+                                <li><Link href="#" className="hover:text-blue-600 transition-colors">Data Privacy</Link></li>
+                                <li><Link href="#" className="hover:text-blue-600 transition-colors">User Interface</Link></li>
+                                <li><Link href="#" className="hover:text-blue-600 transition-colors">Ethics Protocol</Link></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
-                <div className="border-t border-gray-100 pt-12 flex flex-col md:flex-row items-center justify-between gap-6">
-                    <p className="text-sm font-medium text-gray-400">
-                        &copy; {new Date().getFullYear()} CVRider. Built with passion by <a href="https://blessy-io.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-gray-900 hover:text-blue-600 transition-colors">Blessy</a>.
-                    </p>
-                    <div className="flex gap-8 text-xs font-bold text-gray-400 uppercase tracking-widest">
-                        <span>Deploy: Vercel</span>
-                        <span>DB: Supabase</span>
-                        <span>PRISMA ORM</span>
+                <div className="border-t border-gray-50 pt-12 flex flex-col md:flex-row items-center justify-between gap-10">
+                    <div className="flex items-center gap-6">
+                        <p className="text-xs font-bold text-gray-400">
+                            &copy; {new Date().getFullYear()} CVRider. Precision Engineering by <a href="https://blessy-io.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-gray-900 hover:text-blue-600 transition-colors font-black">Blessy</a>.
+                        </p>
+                        <div className="h-4 w-px bg-gray-100 hidden sm:block"></div>
+                        <div className="flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black rounded-full uppercase tracking-widest border border-emerald-100">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                            Global Servers Online
+                        </div>
+                    </div>
+
+                    <div className="flex gap-8 group">
+                        {[
+                            { name: 'Vercel', color: 'bg-blue-600' },
+                            { name: 'Supabase', color: 'bg-indigo-600' },
+                            { name: 'Prisma', color: 'bg-teal-600' }
+                        ].map((tech, idx) => (
+                            <div key={idx} className="flex items-center gap-2 opacity-50 transition-opacity hover:opacity-100">
+                                <div className={`w-1.5 h-1.5 rounded-full ${tech.color}`}></div>
+                                <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">{tech.name}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
