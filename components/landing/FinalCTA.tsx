@@ -38,14 +38,6 @@ export const FinalCTA = () => {
                                     <ArrowRight size={20} className="transition-transform group-hover:translate-x-2" />
                                 </span>
                             </Link>
-
-                            <a
-                                href="https://github.com/blessycode/CVRider"
-                                target="_blank"
-                                className="h-20 px-12 rounded-[2rem] border-2 border-white/10 text-white text-lg font-bold flex items-center justify-center transition-all hover:bg-white/5 hover:border-white/20 active:scale-95 w-full sm:w-auto"
-                            >
-                                View Code
-                            </a>
                         </div>
 
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 pt-16 border-t border-white/5 max-w-4xl mx-auto">

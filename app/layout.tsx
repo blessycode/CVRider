@@ -24,6 +24,10 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "CVRider | Professional Resume Builder",
   description: "Build a beautiful, professional resume in minutes.",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

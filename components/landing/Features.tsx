@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Zap, Layout, Download, CheckCircle, Shield, Cloud, Smartphone, MousePointer2, Sparkles, ArrowRight } from 'lucide-react';
 
 const features = [
@@ -34,9 +35,9 @@ const features = [
         badge: 'Secure'
     },
     {
-        name: 'Open Source',
-        description: 'Built by the community, for the community. Free forever.',
-        icon: <Cloud className="h-7 w-7" />,
+        name: 'Instant Results',
+        description: 'Blazing fast export and preview. No waiting, just professional results.',
+        icon: <Zap className="h-7 w-7" />,
         color: 'bg-cyan-500',
     }
 ];
@@ -99,47 +100,29 @@ export const Features = () => {
                 </div>
 
                 {/* Bottom Bento Section */}
-                <div className="mt-24 grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    <div className="lg:col-span-8 p-12 bg-gray-900 rounded-[3.5rem] relative overflow-hidden group shadow-2xl">
+                <div className="mt-24 grid grid-cols-1 lg:grid-cols-1 gap-8">
+                    <div className="p-12 bg-gray-900 rounded-[3.5rem] relative overflow-hidden group shadow-2xl">
                         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-600/20 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                        <div className="relative z-10 max-w-lg">
-                            <h3 className="text-4xl font-heading font-extrabold text-white mb-6 leading-tight">Truly free. Truly open. <br /> Built for the community.</h3>
-                            <p className="text-lg text-gray-400 font-medium mb-10 leading-relaxed">Join thousands of developers and professionals who contribute to making CVRider the best resume builder on the web.</p>
-                            <a href="https://github.com/blessycode/CVRider" target="_blank" className="inline-flex items-center gap-2 text-white font-black text-xs uppercase tracking-[0.2em] group/btn">
-                                <span>Contribute on GitHub</span>
+                        <div className="relative z-10 max-w-2xl mx-auto text-center">
+                            <h3 className="text-4xl font-heading font-extrabold text-white mb-6 leading-tight">Professional results. <br /> In minutes, not hours.</h3>
+                            <p className="text-lg text-gray-400 font-medium mb-10 leading-relaxed">Join thousands of professionals who have bypassed the complexity and used CVRider to secure their dream roles.</p>
+                            <Link href="/editor" className="inline-flex items-center gap-2 text-white font-black text-xs uppercase tracking-[0.2em] group/btn">
+                                <span>Start Building Now</span>
                                 <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-2" />
-                            </a>
+                            </Link>
                         </div>
 
-                        {/* Abstract Code Visualization Overlay */}
+                        {/* Abstract Tech Visualization Overlay */}
                         <div className="absolute bottom-[-10%] right-[-10%] w-72 lg:w-96 text-gray-800 opacity-20 font-mono text-[10px] pointer-events-none select-none">
                             {`{
   "name": "CVRider",
   "version": "2.0.8",
   "build": "NextJS 14",
-  "license": "MIT",
+  "license": "Proprietary",
   "premium": false,
   "hidden_fees": 0,
   "privacy": "absolute"
 }`}
-                        </div>
-                    </div>
-
-                    <div className="lg:col-span-4 p-12 bg-blue-600 rounded-[3.5rem] relative overflow-hidden group shadow-2xl text-white">
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-700 to-indigo-800 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                        <div className="relative z-10 h-full flex flex-col">
-                            <div className="w-16 h-16 bg-white/10 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform backdrop-blur-md border border-white/10">
-                                <Smartphone size={28} />
-                            </div>
-                            <h3 className="text-3xl font-heading font-extrabold mb-6 leading-tight">Works flawlessly on any device.</h3>
-                            <p className="text-blue-100 font-medium leading-relaxed mb-10">From your phone to your desktop, the editor stays fast and fluid.</p>
-                            <div className="mt-auto flex items-center gap-3">
-                                {[1, 2, 3].map(i => (
-                                    <div key={i} className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
-                                        <div className="h-full bg-white w-full animate-pulse" style={{ animationDelay: `${i * 0.2}s` }}></div>
-                                    </div>
-                                ))}
-                            </div>
                         </div>
                     </div>
                 </div>

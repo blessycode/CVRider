@@ -65,7 +65,6 @@ export function EditorClient({ session }: EditorClientProps) {
             { text: "your.email@example.com", url: "mailto:your.email@example.com", type: "email" },
             { text: "[Phone Number]", type: "phone" },
             { text: "linkedin.com/in/[username]", url: "https://linkedin.com/in/", type: "linkedin" },
-            { text: "github.com/[username]", url: "https://github.com/", type: "github" },
         ],
         education: [
             {

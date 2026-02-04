@@ -84,7 +84,6 @@ export const sampleCV: CVData = {
         { type: 'email', value: 'alex.johnson@example.com' },
         { type: 'phone', value: '+1 (555) 123-4567' },
         { type: 'linkedin', value: 'linkedin.com/in/alexjohnson' },
-        { type: 'github', value: 'github.com/alexjohnson' },
         { type: 'website', value: 'alexjohnson.dev' }
     ],
     experience: [
@@ -141,7 +140,7 @@ export const sampleCV: CVData = {
             id: 'proj-2',
             name: 'TaskMaster App',
             description: 'Collaborative task management application with real-time updates using WebSockets.',
-            url: 'github.com/alex/taskmaster',
+            url: 'taskmaster-demo.com',
             technologies: ['React', 'Node.js', 'Socket.io']
         }
     ],
