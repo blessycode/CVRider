@@ -50,7 +50,7 @@ export const StandardEuropean: React.FC<TemplateProps> = ({ data, font = 'sans' 
                                 <span className="text-xs text-gray-500">{exp.startDate} – {exp.current ? 'Present' : exp.endDate}</span>
                             </div>
                             <div className="text-sm text-gray-600 mb-2">{exp.company}{exp.location ? ` | ${exp.location}` : ''}</div>
-                            <p className="text-sm leading-relaxed text-gray-700">
+                            <p className="text-sm leading-relaxed text-gray-700 whitespace-pre-line">
                                 {exp.description}
                             </p>
                         </div>
@@ -89,6 +89,11 @@ export const StandardEuropean: React.FC<TemplateProps> = ({ data, font = 'sans' 
                                 <span className="text-xs text-gray-500">{edu.startDate} – {edu.endDate}</span>
                             </div>
                             <div className="text-sm text-gray-600">{edu.degree}{edu.field ? ` in ${edu.field}` : ''}</div>
+                            {edu.description && (
+                                <p className="text-sm leading-relaxed text-gray-700 mt-2">
+                                    {edu.description}
+                                </p>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -182,6 +187,11 @@ export const SwissTypography: React.FC<TemplateProps> = ({ data, font = 'sans' }
                                 <span className="text-xs text-gray-500">{edu.startDate} – {edu.endDate}</span>
                             </div>
                             <div className="text-sm text-gray-700">{edu.degree}{edu.field ? ` in ${edu.field}` : ''}</div>
+                            {edu.description && (
+                                <p className="text-sm leading-relaxed text-gray-700 mt-2">
+                                    {edu.description}
+                                </p>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -287,6 +297,11 @@ export const DeveloperTerminal: React.FC<TemplateProps> = ({ data }) => {
                         <div key={edu.id}>
                             <h3 className="text-sm font-bold text-white">{edu.school}</h3>
                             <div className="text-sm text-slate-400">{edu.degree}</div>
+                            {edu.description && (
+                                <div className="text-xs text-emerald-500/70 mt-1 leading-relaxed">
+                                    &gt; {edu.description}
+                                </div>
+                            )}
                             <div className="text-xs text-emerald-500/50 mt-1">{edu.endDate}</div>
                         </div>
                     ))}
@@ -371,6 +386,11 @@ export const ZenSerif: React.FC<TemplateProps> = ({ data }) => {
                         <div key={edu.id} className="text-center">
                             <h3 className="text-sm font-bold text-slate-800">{edu.school}</h3>
                             <div className="text-sm text-slate-500 italic">{edu.degree}</div>
+                            {edu.description && (
+                                <p className="text-xs leading-relaxed text-slate-400 mt-1 italic whitespace-pre-line">
+                                    {edu.description}
+                                </p>
+                            )}
                         </div>
                     ))}
                 </div>

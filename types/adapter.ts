@@ -31,7 +31,8 @@ export const adaptResumeToCVData = (resume: Resume, templateId: string = 'modern
             startDate: e.dateRange?.start || '',
             endDate: e.dateRange?.end || '',
             current: !e.dateRange?.end,
-            location: e.location
+            location: e.location,
+            description: e.highlights?.join('\n') || ''
         })) || [],
         skills: resume.skills?.flatMap((cat, i) =>
             cat.stack.map((s, j) => ({

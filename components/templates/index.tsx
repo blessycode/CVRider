@@ -4,6 +4,8 @@ import { ProfessionalClassic } from './designs/ProfessionalClassic';
 import { CreativeBold } from './designs/CreativeBold';
 import { StandardEuropean, SwissTypography, DeveloperTerminal, ZenSerif } from './designs/InternationalSeries';
 import { ProfessionalAnalyst } from './designs/ProfessionalAnalyst';
+import { CorporateSidebar } from './designs/CorporateSidebar';
+import { ClassicUniversal } from './designs/ClassicUniversal';
 import { CVData } from '@/types/cv';
 
 export interface TemplateConfig {
@@ -166,6 +168,22 @@ export const TEMPLATES: TemplateConfig[] = [
         component: ProfessionalAnalyst,
         props: { font: 'sans' },
         thumbnailClass: 'bg-white border border-gray-300'
+    },
+    {
+        id: 'corporate-modern',
+        name: 'Corporate Executive',
+        description: 'Modern split-column design with a bold high-contrast header.',
+        component: CorporateSidebar,
+        props: { font: 'sans' },
+        thumbnailClass: 'bg-gray-900 border-t-[20px] border-gray-900'
+    },
+    {
+        id: 'classic-centered',
+        name: 'The Universal Classic',
+        description: 'A timeless, clean single-column design suitable for all industries.',
+        component: ClassicUniversal,
+        props: { font: 'serif' },
+        thumbnailClass: 'bg-white border-b-4 border-gray-900'
     },
 ];
 

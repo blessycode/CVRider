@@ -98,6 +98,11 @@ export const CreativeBold: React.FC<TemplateProps> = ({ data, color = 'purple', 
                                     <span className="text-xs text-gray-500">{edu.startDate} – {edu.endDate}</span>
                                 </div>
                                 <div className="text-sm text-gray-600">{edu.degree}{edu.field ? ` in ${edu.field}` : ''}</div>
+                                {edu.description && (
+                                    <p className="text-sm leading-relaxed text-gray-600 mt-2 italic shadow-sm bg-gray-50/50 p-3 rounded-lg border-l-2 border-gray-200">
+                                        {edu.description}
+                                    </p>
+                                )}
                             </div>
                         ))}
                     </div>

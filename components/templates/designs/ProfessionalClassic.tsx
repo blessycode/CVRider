@@ -89,6 +89,11 @@ export const ProfessionalClassic: React.FC<TemplateProps> = ({ data, font = 'ser
                                 <span className="text-xs text-gray-500">{edu.startDate} – {edu.endDate}</span>
                             </div>
                             <div className="text-sm text-gray-600">{edu.degree}{edu.field ? ` in ${edu.field}` : ''}</div>
+                            {edu.description && (
+                                <p className="text-sm leading-relaxed text-gray-600 mt-2">
+                                    {edu.description}
+                                </p>
+                            )}
                         </div>
                     ))}
                 </div>

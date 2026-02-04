@@ -18,6 +18,7 @@ export interface Education {
     endDate: string;
     current: boolean;
     location?: string;
+    description?: string;
 }
 
 export interface Skill {

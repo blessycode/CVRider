@@ -45,6 +45,11 @@ export const ModernSidebar: React.FC<TemplateProps> = ({ data, color = 'blue', f
                             <div key={edu.id}>
                                 <div className="text-sm font-bold leading-tight">{edu.school}</div>
                                 <div className="text-xs opacity-80 mt-1">{edu.degree}</div>
+                                {edu.description && (
+                                    <div className="text-[10px] opacity-70 mt-1 italic leading-relaxed">
+                                        {edu.description}
+                                    </div>
+                                )}
                                 <div className="text-xs opacity-60 mt-1">{edu.startDate} – {edu.endDate}</div>
                             </div>
                         ))}

@@ -83,6 +83,11 @@ export const ProfessionalAnalyst: React.FC<TemplateProps> = ({ data, font = 'san
                                 <span className="text-xs text-gray-500">{edu.startDate} – {edu.endDate}</span>
                             </div>
                             <div className="text-sm text-gray-600">{edu.school}{edu.location ? `, ${edu.location}` : ''}</div>
+                            {edu.description && (
+                                <div className="text-[11px] text-gray-500 mt-1 leading-relaxed pl-4 border-l border-gray-100">
+                                    {edu.description}
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>

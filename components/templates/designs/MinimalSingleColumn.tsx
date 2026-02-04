@@ -87,6 +87,11 @@ export const MinimalSingleColumn: React.FC<TemplateProps> = ({ data, font = 'san
                                 <span className="text-xs text-gray-500">{edu.startDate} – {edu.endDate}</span>
                             </div>
                             <div className="text-sm text-gray-600">{edu.degree}{edu.field ? ` in ${edu.field}` : ''}</div>
+                            {edu.description && (
+                                <p className="text-sm leading-relaxed text-gray-500 mt-1">
+                                    {edu.description}
+                                </p>
+                            )}
                         </div>
                     ))}
                 </div>
